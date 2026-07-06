@@ -1,85 +1,110 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { supabase } from './supabase';
+
 interface VisitorInfo {
-  ip: string;
-  country: string;
-  countryCode: string;
-  city: string;
-  region: string;
-  isp: string;
-  asn: string;
+  ip_address: string;
+  country: string | null;
+  city: string | null;
+  isp: string | null;
+  asn: string | null;
+  device_type: string;
 }
 
-function getDevice(): string {
+function getDeviceType(): string {
   const ua = navigator.userAgent;
-  if (/tablet|ipad|playbook|silk/i.test(ua)) return 'Tablet';
-  if (/mobile|iphone|ipod|android|blackberry|mini|windows\sce|palm/i.test(ua)) return 'Mobile';
+  if (/Mobi|Android|iPhone|iPad/i.test(ua)) return 'Mobile';
   return 'Desktop';
 }
 
-async function getVisitorInfo(): Promise<VisitorInfo | null> {
+async function getVisitorInfo(): Promise<VisitorInfo> {
+  // Default fallback in case all APIs fail
+  const fallback: VisitorInfo = {
+    ip_address: 'unknown',
+    country: null,
+    city: null,
+    isp: null,
+    asn: null,
+    device_type: getDeviceType(),
+  };
+
+  // Try api.ipapi.is first (CORS-friendly, no redirect)
   try {
-    const res = await fetch('https://freeipapi.com/api/json');
-    const data = await res.json() as Record<string, string>;
-    if (!data['ipAddress']) return null;
-    return {
-      ip: data['ipAddress'],
-      country: data['countryName'],
-      countryCode: data['countryCode'],
-      city: data['cityName'],
-      region: data['regionName'],
-      isp: data['org'] || 'Unknown',
-      asn: data['asn'] || 'Unknown',
-    };
+    const res = await fetch('https://api.ipapi.is/', { signal: AbortSignal.timeout(5000) });
+    if (res.ok) {
+      const data = await res.json();
+      return {
+        ip_address: data.ip || 'unknown',
+        country: data.location?.country || null,
+        city: data.location?.city || null,
+        isp: data.company?.name || data.asn?.org || null,
+        asn: data.asn?.asn ? `AS${data.asn.asn}` : null,
+        device_type: getDeviceType(),
+      };
+    }
   } catch {
-    return null;
+    // silently fall through to next API
   }
+
+  // Fallback: ip-api.com
+  try {
+    const res = await fetch('https://ip-api.com/json/?fields=status,country,city,isp,as,query', {
+      signal: AbortSignal.timeout(5000)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.status === 'success') {
+        return {
+          ip_address: data.query || 'unknown',
+          country: data.country || null,
+          city: data.city || null,
+          isp: data.isp || null,
+          asn: data.as || null,
+          device_type: getDeviceType(),
+        };
+      }
+    }
+  } catch {
+    // silently fail
+  }
+
+  return fallback;
 }
 
 export async function trackVisitor(): Promise<void> {
   try {
-    const { supabase } = await import('./supabase');
     const info = await getVisitorInfo();
-    if (!info) return;
 
-    const device = getDevice();
-    const pagePath = window.location.pathname;
-    const db = supabase as any;
-
-    // Check if IP already exists
-    const { data: existing } = await db
+    // Check if this IP was already logged today
+    const today = new Date().toISOString().split('T')[0];
+    // @ts-ignore - Supabase type inference issue with visitor_logs table
+    const { data: existing } = await supabase
       .from('visitor_logs')
       .select('id, visit_count')
-      .eq('ip_address', info.ip)
-      .single();
+      .eq('ip_address', info.ip_address)
+      .gte('last_seen', today)
+      .maybeSingle();
 
     if (existing) {
-      await db
+      // Update visit count
+      const existingRow = existing as { id: string; visit_count: number };
+      // @ts-ignore - Supabase type inference issue with visitor_logs table
+      await supabase
         .from('visitor_logs')
+        // @ts-ignore - Supabase type inference issue with visitor_logs table
         .update({
-          visit_count: ((existing.visit_count as number) || 1) + 1,
+          visit_count: (existingRow.visit_count || 1) + 1,
           last_seen: new Date().toISOString(),
-          page_path: pagePath,
         })
-        .eq('id', existing.id as string);
+        .eq('id', existingRow.id);
     } else {
-      await db
-        .from('visitor_logs')
-        .insert([{
-          ip_address: info.ip,
-          country: info.country,
-          country_code: info.countryCode,
-          city: info.city,
-          region: info.region,
-          isp: info.isp,
-          asn: info.asn,
-          device: device,
-          page_path: pagePath,
-          visit_count: 1,
-          first_seen: new Date().toISOString(),
-          last_seen: new Date().toISOString(),
-        }]);
+      // Insert new visitor
+      // @ts-ignore - Supabase type inference issue with visitor_logs table
+      await supabase.from('visitor_logs').insert([{
+        ...info,
+        visit_count: 1,
+        last_seen: new Date().toISOString(),
+      }]);
     }
-  } catch (err) {
-    console.warn('Analytics error:', err);
+  } catch {
+    // Analytics should never break the site — fail silently
   }
 }
