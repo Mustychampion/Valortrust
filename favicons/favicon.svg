@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#0047AB"/>
+      <stop offset="1" stop-color="#0a3b4f"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="24" fill="#ffffff"/>
+  <g transform="translate(20,18)">
+    <path d="M60 4 L100 40 L80 160 L20 160 L4 40 Z" fill="url(#g)" stroke="#003366" stroke-width="2"/>
+    <path d="M36 90 L64 40" stroke="#FFD700" stroke-width="10" stroke-linecap="round"/>
+    <text x="110" y="150" font-family="Poppins, sans-serif" font-weight="700" font-size="36" fill="#0047AB">VT</text>
+  </g>
+</svg>
