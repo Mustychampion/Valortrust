@@ -12,4 +12,6 @@ services:
         fromSecret: SUPABASE_URL
       - key: SUPABASE_ANON_KEY
         fromSecret: SUPABASE_ANON_KEY
+      - key: PORT
+        value: 3000
     autoDeploy: true
