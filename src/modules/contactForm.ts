@@ -1,14 +1,7 @@
-export interface ContactFormData {
-
-  name: string;
-  email: string;
-  phone: string;
-  sector: string;
-  message: string;
-}
+import { supabase } from '../lib/supabase';
 
 export async function initContactForm(): Promise<void> {
-  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const form = document.querySelector('#contact form') as HTMLFormElement | null;
   if (!form) return;
 
   form.addEventListener('submit', async (e: Event) => {
@@ -18,41 +11,42 @@ export async function initContactForm(): Promise<void> {
     btn.innerText = 'Sending...';
     btn.disabled = true;
 
-    const data: ContactFormData = {
-      name: (document.getElementById('contact-name') as HTMLInputElement).value.trim(),
-      email: (document.getElementById('contact-email') as HTMLInputElement).value.trim(),
-      phone: (document.getElementById('contact-phone') as HTMLInputElement).value.trim(),
-      sector: (document.getElementById('contact-sector') as HTMLSelectElement).value,
-      message: (document.getElementById('contact-message') as HTMLTextAreaElement).value.trim(),
+    const data = {
+      name: (document.getElementById('name') as HTMLInputElement).value.trim(),
+      email: (document.getElementById('email') as HTMLInputElement).value.trim(),
+      phone: (document.getElementById('phone') as HTMLInputElement).value.trim(),
+      sector: (document.getElementById('service') as HTMLSelectElement).value,
+      message: (document.getElementById('message') as HTMLTextAreaElement).value.trim(),
     };
 
     try {
-      const workerUrl = import.meta.env.VITE_WORKER_URL || '';
-      const res = await fetch(`${workerUrl}/api/contact`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error('Failed');
-      showMessage(form, 'success', 'Message sent! We will get back to you shortly.');
+      const { error } = await (supabase as unknown as {
+        from: (table: string) => {
+          insert: (values: Array<Record<string, unknown>>) => Promise<{ error: unknown }>;
+        };
+      }).from('enquiries').insert([data]);
+      if (error) throw error;
+
+      // Show success message
+      btn.innerText = '✓ Message Sent!';
+      btn.style.background = '#16a34a';
       form.reset();
-    } catch {
-      showMessage(form, 'error', 'Something went wrong. Please try again.');
-    } finally {
-      btn.innerText = originalText;
-      btn.disabled = false;
+
+      setTimeout(() => {
+        btn.innerText = originalText;
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 4000);
+
+    } catch (err) {
+      console.error('Contact form error:', err);
+      btn.innerText = 'Failed — Try Again';
+      btn.style.background = '#dc2626';
+      setTimeout(() => {
+        btn.innerText = originalText;
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 3000);
     }
   });
-}
-
-function showMessage(form: HTMLFormElement, type: 'success' | 'error', text: string): void {
-  let msg = document.getElementById('form-message');
-  if (!msg) {
-    msg = document.createElement('div');
-    msg.id = 'form-message';
-    form.appendChild(msg);
-  }
-  msg.textContent = text;
-  msg.className = type === 'success' ? 'form-success' : 'form-error';
-  setTimeout(() => { if (msg) msg.textContent = ''; }, 5000);
 }

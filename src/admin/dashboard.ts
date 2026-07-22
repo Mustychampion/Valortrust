@@ -15,7 +15,7 @@ export async function loadDashboard(container: HTMLElement) {
       supabase.from('blog_posts').select('*', { count: 'exact', head: true }),
       supabase.from('portfolio').select('*', { count: 'exact', head: true }),
       supabase.from('testimonials').select('*', { count: 'exact', head: true }),
-      supabase.from('enquiries').select('*', { count: 'exact', head: true }).eq('status', 'unread'),
+      (supabase.from('enquiries').select('*', { count: 'exact', head: true }) as any).eq('status', 'unread'),
       supabase.from('enquiries').select('*').order('created_at', { ascending: false }).limit(5)
     ]) as [
       { count: number | null },

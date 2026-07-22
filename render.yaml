@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: valortrust-website
+    region: oregon
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SUPABASE_URL
+        fromSecret: SUPABASE_URL
+      - key: SUPABASE_ANON_KEY
+        fromSecret: SUPABASE_ANON_KEY
+    autoDeploy: true

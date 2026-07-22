@@ -6,11 +6,11 @@
     <title>VALORTRUST INTEGRATED SERVICES LTD | RC: 9268182 | Kano, Nigeria</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://unpkg.com/scrollreveal"></script>
-    <link rel="icon" href="/favicons/favicon.svg" type="image/svg+xml">
-    <link rel="shortcut icon" href="/favicons/favicon.svg">
-    <link rel="apple-touch-icon" href="/favicons/favicon.svg">
-    <link rel="manifest" href="/favicons/site.webmanifest">
-    <link rel="mask-icon" href="/favicons/favicon.svg" color="#0047AB">
+    <link rel="icon" href="/favicons/favicon.svg?v=2" type="image/svg+xml">
+    <link rel="shortcut icon" href="/favicons/favicon.svg?v=2">
+    <link rel="apple-touch-icon" href="/favicons/favicon.svg?v=2">
+    <link rel="manifest" href="/favicons/site.webmanifest?v=2">
+    <link rel="mask-icon" href="/favicons/favicon.svg?v=2" color="#0047AB">
     <meta name="theme-color" content="#ffffff">
     <!-- Styles are now handled by Vite and Tailwind CSS build -->
 </head>
@@ -25,8 +25,8 @@
     <header class="fixed w-full bg-white shadow-md z-40 transition-all duration-500">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center">
-                <a href="#" class="text-2xl font-bold text-blue-900 flex items-center">
-                    <span class="bg-blue-900 text-white p-2 rounded mr-2">VIS</span>
+                <a href="#" class="flex items-center">
+                    <span> <img src="/Valortrust logo.png" alt="ValorTrust Integrated Services" class="h-12 w-auto object-contain"></span>
                     <span>VALORTRUST INTEGRATED SERVICES</span>
                 </a>
             </div>
@@ -34,7 +34,7 @@
                 <a href="#" class="text-blue-900 font-medium hover:text-yellow-500 transition">Home</a>
                 <a href="#about" class="text-blue-900 font-medium hover:text-yellow-500 transition">About</a>
                 <a href="#sectors" class="text-blue-900 font-medium hover:text-yellow-500 transition">Sectors</a>
-                <a href="#portfolio" class="text-blue-900 font-medium hover:text-yellow-500 transition">Portfolio</a>
+                <a href="/portfolio/" class="text-blue-900 font-medium hover:text-yellow-500 transition">CEO Portfolio</a>
                 <a href="#blog" class="text-blue-900 font-medium hover:text-yellow-500 transition">Blog</a>
                 <a href="#contact" class="text-blue-900 font-medium hover:text-yellow-500 transition">Contact</a>
                 <a href="#contact" class="bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-yellow-500 transition">Get Started</a>
@@ -49,7 +49,7 @@
             <a href="#" class="block py-2 text-blue-900 font-medium hover:text-yellow-500 transition">Home</a>
             <a href="#about" class="block py-2 text-blue-900 font-medium hover:text-yellow-500 transition">About</a>
             <a href="#sectors" class="block py-2 text-blue-900 font-medium hover:text-yellow-500 transition">Sectors</a>
-            <a href="#portfolio" class="block py-2 text-blue-900 font-medium hover:text-yellow-500 transition">Portfolio</a>
+            <a href="/portfolio/" class="block py-2 text-blue-900 font-medium hover:text-yellow-500 transition">CEO Portfolio</a>
             <a href="#blog" class="block py-2 text-blue-900 font-medium hover:text-yellow-500 transition">Blog</a>
             <a href="#contact" class="block py-2 text-blue-900 font-medium hover:text-yellow-500 transition">Contact</a>
             <a href="#contact" class="block mt-2 bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-yellow-500 transition text-center">Get Started</a>
@@ -134,15 +134,21 @@
 
                     <h3 class="text-2xl font-bold text-blue-900 mb-4">Leadership</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="bg-blue-900 text-white p-5 rounded-xl">
-                            <div class="text-yellow-400 text-xs font-bold uppercase tracking-wider mb-1">Chief Executive Officer</div>
-                            <div class="text-lg font-bold mb-1">QS Mustapha Sani Jibril</div>
-                            <div class="text-blue-200 text-sm">Founder & CEO · Quantity Surveyor · Visionary leader driving growth strategy and company direction.</div>
-                        </div>
-                        <div class="bg-gray-100 text-blue-900 p-5 rounded-xl border border-blue-200">
-                            <div class="text-yellow-600 text-xs font-bold uppercase tracking-wider mb-1">General Manager</div>
-                            <div class="text-lg font-bold mb-1">QS Muhammad Magaji Abdullahi</div>
-                            <div class="text-gray-600 text-sm">Quantity Surveyor · Oversees operations and ensures cross-sector coordination and delivery.</div>
+                        <a href="/portfolio/" class="group block rounded-xl border border-blue-200 bg-gradient-to-br from-blue-900 to-blue-800 p-5 text-white shadow-lg transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl animate-on-scroll">
+                            <div class="mb-3 flex items-center justify-between">
+                                <span class="text-xs font-bold uppercase tracking-wider text-yellow-400">Chief Executive Officer</span>
+                                <i class="fas fa-arrow-right text-sm transition duration-300 group-hover:translate-x-1"></i>
+                            </div>
+                            <div class="text-lg font-bold">QS Mustapha Sani Jibril</div>
+                            <div class="mt-2 text-sm text-blue-100">Founder & CEO · Quantity Surveyor · This portfolio page is dedicated to the CEO’s professional profile, achievements, and leadership journey.</div>
+                            <div class="mt-4 inline-flex items-center text-sm font-semibold text-yellow-400">Open CEO Portfolio <i class="fas fa-chevron-right ml-2"></i></div>
+                        </a>
+                        <div class="group block rounded-xl border border-blue-200 bg-gradient-to-br from-white to-blue-50 p-5 text-blue-900 shadow-lg transition-all duration-500">
+                            <div class="mb-3 flex items-center justify-between">
+                                <span class="text-xs font-bold uppercase tracking-wider text-yellow-600">General Manager</span>
+                            </div>
+                            <div class="text-lg font-bold">QS Muhammad Magaji Abdullahi</div>
+                            <div class="mt-2 text-sm text-gray-600">Quantity Surveyor · Coordinating multi-sector delivery, operations, and project execution.</div>
                         </div>
                     </div>
                 </div>
@@ -478,13 +484,20 @@
                 <div class="w-24 h-1 bg-yellow-500 mx-auto mt-4"></div>
             </div>
             
-            <div class="flex justify-center mb-12 flex-wrap gap-2">
-                <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100" data-filter="all">All Work</button>
-                <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100" data-filter="digital">Digital</button>
-                <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100" data-filter="design">Design</button>
-                <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100" data-filter="construction">Construction</button>
-                <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100" data-filter="agro">Agriculture</button>
-            </div>
+            <div class="flex justify-center mb-12 flex-wrap gap-2" id="portfolio-filters">
+    <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 active-filter" data-filter="all">All Work</button>
+    <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100" data-filter="construction">Construction</button>
+    <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100" data-filter="digital">Digital</button>
+    <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100" data-filter="design">Design</button>
+    <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100" data-filter="agriculture">Agriculture</button>
+    <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100" data-filter="solar">Solar Energy</button>
+    <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100" data-filter="procurement">Procurement</button>
+    <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100" data-filter="real-estate">Real Estate</button>
+    <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100" data-filter="real-estate">Textile And Fabrics</button>
+    <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100" data-filter="real-estate">Food And Agro Processing</button>
+    <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100" data-filter="real-estate">Export And Global Trade</button>
+    <button type="button" class="portfolio-filter px-5 py-3 text-sm font-medium text-blue-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100" data-filter="real-estate">Consulting</button>
+</div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="portfolio-grid">
                 <div class="portfolio-item relative overflow-hidden rounded-lg shadow-lg cursor-pointer" data-category="digital">
@@ -551,7 +564,7 @@
                 <p class="text-xl text-blue-200 max-w-3xl mx-auto">Hear from businesses we've helped transform</p>
                 <div class="w-24 h-1 bg-yellow-500 mx-auto mt-4"></div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="testimonials-grid">
                 <div class="testimonial-card bg-white text-gray-800 rounded-xl shadow-lg p-8 transition duration-500 hover:bg-blue-800 hover:text-white">
                     <div class="text-yellow-500 text-xl mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                     <p class="mb-6 italic">"ValorTrust transformed our social media presence completely. In just 3 months, we saw a 400% increase in engagement and a significant boost in sales."</p>
@@ -588,7 +601,7 @@
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">Discover trends, tips and strategies for business growth</p>
                 <div class="w-24 h-1 bg-yellow-500 mx-auto mt-4"></div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12" id="blog-posts-container">
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-500 hover:shadow-xl">
                     <img src="https://images.unsplash.com/photo-1551135021-5a37cdfc5e6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1964&q=80" alt="Social Media Growth" class="w-full h-48 object-cover">
                     <div class="p-6">
@@ -791,7 +804,7 @@
                         <li><a href="#" class="hover:text-yellow-500 transition">Home</a></li>
                         <li><a href="#about" class="hover:text-yellow-500 transition">About Us</a></li>
                         <li><a href="#sectors" class="hover:text-yellow-500 transition">Our 12 Sectors</a></li>
-                        <li><a href="#portfolio" class="hover:text-yellow-500 transition">Portfolio</a></li>
+                        <li><a href="/portfolio/" class="hover:text-yellow-500 transition">CEO Portfolio</a></li>
                         <li><a href="#blog" class="hover:text-yellow-500 transition">Blog</a></li>
                         <li><a href="#contact" class="hover:text-yellow-500 transition">Contact</a></li>
                     </ul>
@@ -831,5 +844,27 @@
     </footer>
     
     <script type="module" src="/src/main.ts"></script>
+
+    <!-- Portfolio Modal -->
+<div id="portfolio-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+    <div class="relative">
+      <img id="modal-image" src="" alt="" class="w-full h-64 object-cover rounded-t-2xl hidden">
+      <div id="modal-no-image" class="w-full h-40 bg-blue-900 rounded-t-2xl flex items-center justify-center hidden">
+        <i class="fas fa-briefcase text-white text-5xl"></i>
+      </div>
+      <button onclick="closePortfolioModal()" class="absolute top-4 right-4 bg-white rounded-full w-9 h-9 flex items-center justify-center shadow-lg text-gray-600 hover:text-red-500 text-xl font-bold">×</button>
+    </div>
+    <div class="p-8">
+      <span id="modal-category" class="bg-blue-100 text-blue-900 text-xs font-medium px-2.5 py-0.5 rounded"></span>
+      <h2 id="modal-title" class="text-2xl font-bold text-blue-900 mt-3 mb-3"></h2>
+      <p id="modal-description" class="text-gray-600 leading-relaxed mb-6"></p>
+      <div class="flex gap-4">
+        <a id="modal-link" href="#" target="_blank" class="hidden bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-lg transition">View Live Project →</a>
+        <a href="#contact" onclick="closePortfolioModal()" class="border-2 border-blue-900 text-blue-900 hover:bg-blue-900 hover:text-white font-bold py-3 px-6 rounded-lg transition">Enquire About This</a>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>

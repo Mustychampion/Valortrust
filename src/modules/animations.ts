@@ -8,18 +8,20 @@ export function initAnimations(): void {
 
 function initScrollAnimations(): void {
   const elements = document.querySelectorAll<HTMLElement>(
-    '.sector-card, .portfolio-card, .blog-card, .testimonial-card, .about-content, .contact-field'
+    'section, .service-card, .portfolio-card, .blog-card, .testimonial-card, .about-content, .contact-field, .animate-on-scroll'
   );
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
-      if (entry.isIntersecting) {
-        const el = entry.target as HTMLElement;
-        el.style.animationDelay = `${index * 80}ms`;
-        el.classList.add('animate-in');
-        observer.unobserve(el);
-      }
+      if (!entry.isIntersecting) return;
+
+      const el = entry.target as HTMLElement;
+      const delay = Math.min(index * 80, 400);
+      el.style.animationDelay = `${delay}ms`;
+      el.classList.add('animate-in');
+      observer.unobserve(el);
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.12 });
+
   elements.forEach((el) => {
     el.classList.add('animate-ready');
     observer.observe(el);

@@ -4,12 +4,27 @@ import path from 'path';
 
 export default defineConfig({
   base: '/',
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+    proxy: {
+      '/portfolio': {
+        target: 'http://127.0.0.1:5174',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/portfolio/, ''),
+      },
+    },
+  },
   build: {
   outDir: 'dist',
   minify: 'terser',
   sourcemap: process.env.NODE_ENV !== 'production',
   cssCodeSplit: true,
   rollupOptions: {
+    onwarn(warning, warn) {
+      if (warning.code === 'PLUGIN_TIMINGS') return;
+      warn(warning);
+    },
     input: {
       main: './index.html',
       admin: './admin.html',

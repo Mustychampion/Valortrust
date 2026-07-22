@@ -5,11 +5,9 @@ interface BlogPost {
   title: string;
   category: string;
   excerpt: string;
-  content: string;
   image_url: string;
   slug: string;
-  status: string;
-  published_at: string;
+  created_at: string;
 }
 
 export async function loadBlog(): Promise<void> {
@@ -20,22 +18,22 @@ export async function loadBlog(): Promise<void> {
     .from('blog_posts')
     .select('*')
     .eq('status', 'published')
-    .order('published_at', { ascending: false })
+    .order('created_at', { ascending: false })
     .limit(3);
 
-  if (error || !data?.length) {
-    container.innerHTML = `<div class="no-content">No blog posts yet. Check back soon!</div>`;
-    return;
-  }
+  if (error || !data?.length) return; // Keep hardcoded if no data
 
   container.innerHTML = (data as BlogPost[]).map(post => `
-    <div class="blog-card">
-      ${post.image_url ? `<img src="${post.image_url}" alt="${post.title}" loading="lazy">` : ''}
-      <div class="blog-card-body">
-        <span class="blog-category">${post.category || ''}</span>
-        <h3>${post.title}</h3>
-        <p>${post.excerpt || ''}</p>
-        <a href="#blog-${post.slug}" class="read-more">Read Article →</a>
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition duration-500 hover:shadow-xl">
+      ${post.image_url
+        ? `<img src="${post.image_url}" alt="${post.title}" class="w-full h-48 object-cover" loading="lazy">`
+        : `<div class="w-full h-48 bg-blue-900 flex items-center justify-center"><i class="fas fa-newspaper text-white text-5xl"></i></div>`
+      }
+      <div class="p-6">
+        <span class="bg-blue-100 text-blue-900 text-xs font-medium px-2.5 py-0.5 rounded">${post.category || ''}</span>
+        <h3 class="text-xl font-bold text-blue-900 mt-3 mb-2">${post.title}</h3>
+        <p class="text-gray-600 mb-4">${post.excerpt || ''}</p>
+        <a href="#blog-${post.slug}" class="text-yellow-500 font-medium hover:text-yellow-600 transition">Read Article →</a>
       </div>
     </div>`).join('');
 }

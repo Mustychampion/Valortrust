@@ -77,10 +77,39 @@
   .bounce-animation {
       animation: bounce 0.5s ease-in-out;
   }
+  .animate-ready {
+      opacity: 0;
+      transform: translateY(24px);
+      will-change: transform, opacity;
+  }
+  .animate-in {
+      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .animate-slogan {
+      animation: heroSlogan 1s ease-out both;
+  }
+  .nav-scrolled {
+      background-color: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(12px);
+  }
+  .preloader-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+  }
+  .visible {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+  }
 
   @keyframes fadeUp {
       from { transform: translateY(40px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes heroSlogan {
+      from { transform: translateY(20px) scale(0.98); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
   }
   @keyframes fadeLeft {
       from { transform: translateX(-40px); opacity: 0; }

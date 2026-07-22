@@ -75,10 +75,8 @@ export async function trackVisitor(): Promise<void> {
 
     // Check if this IP was already logged today
     const today = new Date().toISOString().split('T')[0];
-    // @ts-ignore - Supabase type inference issue with visitor_logs table
-    const { data: existing } = await supabase
-      .from('visitor_logs')
-      .select('id, visit_count')
+    const visitorQuery = supabase.from('visitor_logs').select('id, visit_count') as any;
+    const { data: existing } = await visitorQuery
       .eq('ip_address', info.ip_address)
       .gte('last_seen', today)
       .maybeSingle();
@@ -86,10 +84,7 @@ export async function trackVisitor(): Promise<void> {
     if (existing) {
       // Update visit count
       const existingRow = existing as { id: string; visit_count: number };
-      // @ts-ignore - Supabase type inference issue with visitor_logs table
-      await supabase
-        .from('visitor_logs')
-        // @ts-ignore - Supabase type inference issue with visitor_logs table
+      await (supabase.from('visitor_logs') as any)
         .update({
           visit_count: (existingRow.visit_count || 1) + 1,
           last_seen: new Date().toISOString(),
@@ -97,8 +92,7 @@ export async function trackVisitor(): Promise<void> {
         .eq('id', existingRow.id);
     } else {
       // Insert new visitor
-      // @ts-ignore - Supabase type inference issue with visitor_logs table
-      await supabase.from('visitor_logs').insert([{
+      await (supabase.from('visitor_logs') as any).insert([{
         ...info,
         visit_count: 1,
         last_seen: new Date().toISOString(),

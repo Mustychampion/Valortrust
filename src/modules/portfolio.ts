@@ -9,8 +9,10 @@ interface PortfolioItem {
   link: string;
 }
 
+let allProjects: PortfolioItem[] = [];
+
 export async function loadPortfolio(): Promise<void> {
-  const container = document.getElementById('portfolio-container');
+  const container = document.getElementById('portfolio-grid');
   if (!container) return;
 
   const { data, error } = await (supabase as any)
@@ -18,39 +20,106 @@ export async function loadPortfolio(): Promise<void> {
     .select('*')
     .order('created_at', { ascending: false });
 
-  if (error || !data?.length) {
-    container.innerHTML = `<div class="no-content">No portfolio items yet.</div>`;
-    return;
-  }
+  if (error || !data?.length) return;
 
-  renderPortfolio(data as PortfolioItem[]);
-  initFilters(data as PortfolioItem[]);
+  allProjects = data as PortfolioItem[];
+  renderPortfolio(allProjects);
+  initFilters();
 }
 
 function renderPortfolio(items: PortfolioItem[]): void {
-  const container = document.getElementById('portfolio-container');
+  const container = document.getElementById('portfolio-grid');
   if (!container) return;
+
+  if (!items.length) {
+    container.innerHTML = `<div class="col-span-3 text-center py-12 text-gray-400">No projects found in this category.</div>`;
+    return;
+  }
+
   container.innerHTML = items.map(item => `
-    <div class="portfolio-card" data-category="${item.category}">
-      ${item.image_url ? `<img src="${item.image_url}" alt="${item.title}" loading="lazy">` : ''}
-      <div class="portfolio-card-body">
-        <span class="portfolio-category">${item.category || ''}</span>
-        <h3>${item.title}</h3>
-        <p>${item.description || ''}</p>
-        ${item.link ? `<a href="${item.link}" target="_blank" class="view-project">View Project →</a>` : ''}
+    <div class="portfolio-item relative overflow-hidden rounded-lg shadow-lg cursor-pointer group" 
+         data-category="${item.category}"
+         onclick="openPortfolioModal('${item.id}')">
+      ${item.image_url
+        ? `<img src="${item.image_url}" alt="${item.title}" class="w-full h-64 object-cover transition duration-500 group-hover:scale-110" loading="lazy">`
+        : `<div class="w-full h-64 bg-blue-900 flex items-center justify-center"><i class="fas fa-briefcase text-white text-5xl"></i></div>`
+      }
+      <div class="portfolio-overlay absolute inset-0 bg-blue-900 bg-opacity-90 flex flex-col justify-center items-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6">
+        <span class="text-yellow-500 text-xs font-bold uppercase tracking-wider mb-2">${item.category}</span>
+        <h3 class="text-xl font-bold mb-2 text-center">${item.title}</h3>
+        <p class="text-center text-sm mb-4 text-blue-100">${(item.description || '').substring(0, 80)}...</p>
+        <span class="bg-yellow-500 text-blue-900 font-bold py-2 px-4 rounded-lg text-sm">View Details →</span>
       </div>
     </div>`).join('');
 }
 
-function initFilters(data: PortfolioItem[]): void {
-  const filters = document.querySelectorAll<HTMLElement>('[data-filter]');
+function initFilters(): void {
+  const filters = document.querySelectorAll<HTMLElement>('.portfolio-filter');
   filters.forEach(btn => {
     btn.addEventListener('click', () => {
-      filters.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      filters.forEach(b => {
+        b.classList.remove('active-filter', 'bg-blue-900', 'text-white');
+        b.classList.add('text-blue-900', 'bg-white');
+      });
+      btn.classList.add('active-filter', 'bg-blue-900', 'text-white');
+      btn.classList.remove('text-blue-900', 'bg-white');
+
       const filter = btn.getAttribute('data-filter');
-      const filtered = filter === 'all' ? data : data.filter(item => item.category === filter);
+      const filtered = filter === 'all'
+        ? allProjects
+        : allProjects.filter(item => item.category.toLowerCase() === filter);
       renderPortfolio(filtered);
     });
   });
 }
+
+// Modal functions
+(window as any).openPortfolioModal = (id: string) => {
+  const item = allProjects.find(p => p.id === id);
+  if (!item) return;
+
+  const modal = document.getElementById('portfolio-modal')!;
+  const modalImage = document.getElementById('modal-image') as HTMLImageElement;
+  const modalNoImage = document.getElementById('modal-no-image')!;
+  const modalLink = document.getElementById('modal-link') as HTMLAnchorElement;
+
+  (document.getElementById('modal-title')!).textContent = item.title;
+  (document.getElementById('modal-description')!).textContent = item.description || 'No description available.';
+  (document.getElementById('modal-category')!).textContent = item.category;
+
+  if (item.image_url) {
+    modalImage.src = item.image_url;
+    modalImage.alt = item.title;
+    modalImage.classList.remove('hidden');
+    modalNoImage.classList.add('hidden');
+  } else {
+    modalImage.classList.add('hidden');
+    modalNoImage.classList.remove('hidden');
+  }
+
+  if (item.link) {
+    modalLink.href = item.link;
+    modalLink.classList.remove('hidden');
+  } else {
+    modalLink.classList.add('hidden');
+  }
+
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+  document.body.style.overflow = 'hidden';
+};
+
+(window as any).closePortfolioModal = () => {
+  const modal = document.getElementById('portfolio-modal')!;
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+  document.body.style.overflow = '';
+};
+
+// Close modal when clicking outside
+document.addEventListener('click', (e) => {
+  const modal = document.getElementById('portfolio-modal');
+  if (e.target === modal) {
+    (window as any).closePortfolioModal();
+  }
+});

@@ -4,3 +4,14 @@ dist/
 .env.local
 .DS_Store
 *.log
+
+# Ignore embedded git repositories and worktrees
+portpolio/
+valortrust.parent-main.worktrees/
+
+# Ignore empty marker files
+findstr
+notepad
+powershell
+p.id
+type
