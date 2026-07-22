@@ -5,8 +5,7 @@ dist/
 .DS_Store
 *.log
 
-# Ignore embedded git repositories and worktrees
-portpolio/
+# Ignore nested git repository worktrees
 valortrust.parent-main.worktrees/
 
 # Ignore empty marker files

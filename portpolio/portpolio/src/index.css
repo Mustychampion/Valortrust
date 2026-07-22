@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Corporate Green Theme */
+    --background: 45 20% 97%;
+    --foreground: 150 30% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 150 30% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 150 30% 10%;
+
+    /* Deep forest green */
+    --primary: 152 60% 22%;
+    --primary-foreground: 45 20% 97%;
+
+    /* Soft sage */
+    --secondary: 140 20% 94%;
+    --secondary-foreground: 150 30% 15%;
+
+    --muted: 140 15% 92%;
+    --muted-foreground: 150 10% 45%;
+
+    /* Warm gold accent */
+    --accent: 45 80% 50%;
+    --accent-foreground: 150 30% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 140 15% 88%;
+    --input: 140 15% 88%;
+    --ring: 152 60% 22%;
+
+    --radius: 0.5rem;
+
+    /* Custom tokens */
+    --hero-gradient: linear-gradient(135deg, hsl(152, 60%, 22%) 0%, hsl(160, 50%, 30%) 100%);
+    --card-shadow: 0 4px 24px -4px hsl(150 30% 10% / 0.08);
+    --card-shadow-hover: 0 12px 32px -8px hsl(150 30% 10% / 0.15);
+    --text-gradient: linear-gradient(135deg, hsl(152, 60%, 22%) 0%, hsl(45, 80%, 50%) 100%);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 152 60% 22%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 140 20% 94%;
+    --sidebar-accent-foreground: 150 30% 15%;
+    --sidebar-border: 140 15% 88%;
+    --sidebar-ring: 152 60% 22%;
+  }
+
+  .dark {
+    --background: 150 30% 8%;
+    --foreground: 45 20% 95%;
+
+    --card: 150 25% 12%;
+    --card-foreground: 45 20% 95%;
+
+    --popover: 150 25% 12%;
+    --popover-foreground: 45 20% 95%;
+
+    --primary: 152 55% 45%;
+    --primary-foreground: 150 30% 8%;
+
+    --secondary: 150 20% 18%;
+    --secondary-foreground: 45 20% 90%;
+
+    --muted: 150 20% 15%;
+    --muted-foreground: 140 10% 60%;
+
+    --accent: 45 80% 55%;
+    --accent-foreground: 150 30% 8%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 150 20% 20%;
+    --input: 150 20% 20%;
+    --ring: 152 55% 45%;
+
+    --sidebar-background: 150 30% 8%;
+    --sidebar-foreground: 45 20% 90%;
+    --sidebar-primary: 152 55% 45%;
+    --sidebar-primary-foreground: 150 30% 8%;
+    --sidebar-accent: 150 20% 18%;
+    --sidebar-accent-foreground: 45 20% 90%;
+    --sidebar-border: 150 20% 20%;
+    --sidebar-ring: 152 55% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer utilities {
+  .font-sans {
+    font-family: 'DM Sans', system-ui, sans-serif;
+  }
+
+  .font-display {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  .hero-gradient {
+    background: var(--hero-gradient);
+  }
+
+  .text-gradient {
+    background: var(--text-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .card-shadow {
+    box-shadow: var(--card-shadow);
+  }
+
+  .card-shadow-hover {
+    box-shadow: var(--card-shadow-hover);
+  }
+
+  .section-padding {
+    @apply px-4 py-16 md:px-8 md:py-24 lg:px-16 lg:py-32;
+  }
+
+  .container-narrow {
+    @apply max-w-5xl mx-auto;
+  }
+
+  .container-wide {
+    @apply max-w-7xl mx-auto;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.5);
+}

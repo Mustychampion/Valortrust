@@ -32,7 +32,7 @@ services:
       - key: SUPABASE_URL
         value: https://zcbvhzenlfrgjyewvwbl.supabase.co
       - key: SUPABASE_ANON_KEY
-        value: your_actual_anon_key_here
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjYnZoemVubGZyZ2p5ZXd2d2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNzQxMDEsImV4cCI6MjA5NTY1MDEwMX0.42rjobnYQgR4BmwJhhWy_LJvJViOI7cwa6e-pcL01HY
       - key: PORT
         value: 3000
 ```
